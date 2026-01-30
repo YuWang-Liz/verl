@@ -317,17 +317,6 @@ class MultiTurnSFTDataset(Dataset):
             full_tokens[0], concat_tokens, concat_loss_mask, concat_attention_mask
         )
 
-        # encode prompt
-        if messages[0]["role"] == "system":
-            assert messages[1]["role"] == "user"
-            assert messages[2]["role"] == "assistant"
-            prompt_message_length = 2
-        elif messages[0]["role"] == "user":
-            assert messages[1]["role"] == "assistant"
-            prompt_message_length = 1
-        else:
-            raise ValueError(f"Unknown role: {messages[0]['role']}")
-
         sequence_length = input_ids.shape[0]
         # Handle sequence length
         if self.pad_mode == "right":
@@ -367,6 +356,16 @@ class MultiTurnSFTDataset(Dataset):
                 "loss_mask": loss_mask,
             }
         elif self.pad_mode == "left_right":
+            # encode prompt
+            if messages[0]["role"] == "system":
+                assert messages[1]["role"] == "user"
+                assert messages[2]["role"] == "assistant"
+                prompt_message_length = 2
+            elif messages[0]["role"] == "user":
+                assert messages[1]["role"] == "assistant"
+                prompt_message_length = 1
+            else:
+                raise ValueError(f"Unknown role: {messages[0]['role']}")
             assert self.truncation == "error", "Only support error truncation for left_right pad mode"
             prompt_str = self.tokenizer.apply_chat_template(
                 messages[:prompt_message_length],
