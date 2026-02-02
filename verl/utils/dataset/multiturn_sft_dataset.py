@@ -329,14 +329,14 @@ class MultiTurnSFTDataset(Dataset):
             full_tokens[0], concat_tokens, concat_loss_mask, concat_attention_mask
         )
 
-        # encode prompt
-        if messages[0]["role"] == "system":
-            assert messages[1]["role"] == "user"
-            assert messages[2]["role"] == "assistant"
-        elif messages[0]["role"] == "user":
-            assert messages[1]["role"] == "assistant"
-        else:
-            raise ValueError(f"Unknown role: {messages[0]['role']}")
+        # # encode prompt
+        # if messages[0]["role"] == "system":
+        #     assert messages[1]["role"] == "user"
+        #     assert messages[2]["role"] == "assistant"
+        # elif messages[0]["role"] == "user":
+        #     assert messages[1]["role"] == "assistant"
+        # else:
+        #     raise ValueError(f"Unknown role: {messages[0]['role']}")
 
         sequence_length = input_ids.shape[0]
         # Handle sequence length
