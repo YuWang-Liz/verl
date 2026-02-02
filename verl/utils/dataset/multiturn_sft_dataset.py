@@ -300,8 +300,8 @@ class MultiTurnSFTDataset(Dataset):
                 i = ed
             elif cur_messages["role"] in ["user", "system"]:
                 # Process user or system message
-                if cur_messages["role"] == "system" and i != 0:
-                    raise ValueError("System message should be the first message")
+                # if cur_messages["role"] == "system" and i != 0:
+                #     raise ValueError("System message should be the first message")
                 tokens, loss_mask, attention_mask = self._process_message_tokens(
                     messages, i, i + 1, enable_thinking=enable_thinking, tools=tools
                 )
